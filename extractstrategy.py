@@ -22,22 +22,23 @@ class EmailStrategy:
          emailgrp = re.search("(\w+-*[.|\w]*)*@(\w+[.])*\w+",self.text)
          email = ''
          if emailgrp:
+            email = emailgrp.group()
             #check1: the first letter would be digit
-            email_test_1 = emailgrp.group()
-            email_test_2 = ''
-            for i in range(0,len(email_test_1)):
-              if not email_test_1[i].isdigit():
-                   email_test_2 = email_test_1[i:]
-                   break
+            #email_test_1 = emailgrp.group()
+            #email_test_2 = ''
+            #for i in range(0,len(email_test_1)):
+            #  if not email_test_1[i].isdigit():
+            #       email_test_2 = email_test_1[i:]
+            #       break
             #check2:Top level domain check,remove other unnecessary characters.
-            email_slt = email_test_2.split('.')
-            top_level_domain = email_slt[-1]
-            domain_test = re.search("(?:[A-Z]{2}|cn|com|edu|us|tw|hk|net|uk|ws|de)",top_level_domain)  
-            if domain_test:
-               if len(domain_test.group()) == len(top_level_domain):
-                   email = email_test_2
-               else:
-                   email = email.slt[0] + domain_test.group()
+            #email_slt = email_test_2.split('.')
+            #top_level_domain = email_slt[-1]
+            #domain_test = re.search("(?:[A-Z]{2}|cn|com|edu|us|tw|hk|net|uk|ws|de)",top_level_domain)  
+            #if domain_test:
+            #   if len(domain_test.group()) == len(top_level_domain):
+            #       email = email_test_2
+            #   else:
+            #       email = email_slt[0] +'.'+ domain_test.group()
          
          return email   
 
