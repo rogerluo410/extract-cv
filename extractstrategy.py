@@ -97,12 +97,23 @@ class PhoneStrategy:
               phone2 = phone1
 
           return phone2
+
+      def extract_international_phone(self):
+          phonegrp = re.search("1?\s*\W?\s*([2-9][0-8][0-9])\s*\W?\s*([2-9][0-9]{2})\s*\W?\s*([0-9]{4})(\se?x?t?(\d*))?",self.text)
+          phone = ''
+          if phonegrp:
+               phone = phonegrp.group()
+
+          return phone 
+          
            
       def extract_phone_interface(self):
           phone = self.extract_phone_by_re()
           #failed to extract phone with regular expression
           if not phone:
             phone = self.extract_phone_by_read11()
+          if not phone:
+            phone = self.extract_international_phone()
            
           return phone
 
