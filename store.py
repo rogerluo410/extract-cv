@@ -67,8 +67,8 @@ class GFS:
 
 
     #write file (data from GFS)
-    def store_2_filesystem(data):
-       output = open("write_test1.pdf", 'wb')
+    def store_2_filesystem(filename,data):
+       output = open(filename, 'wb')
        output.write(data)
        output.close()
 
