@@ -47,7 +47,7 @@ class ExtractPdf :
             self.text = text
             return [0,"Read text ok"]
          else:
-            return [-1,"Failed to convert txt with tool pdftotext"]
+            return [-1,"Failed to convert to txt with tool pdftotext"]
       except IOError:
          return [1,"Cann't read file : "+self.filename]
       except:
@@ -102,7 +102,7 @@ class ExtractDocx:
             self.text = text
             return [0,"Read text ok"]
          else:
-            return [-1,"Failed to convert txt with tool docx2txt"]
+            return [-1,"Failed to convert to txt with tool docx2txt"]
       except IOError:
          return [1,"Cann't read file : "+self.filename]
       except:
@@ -161,7 +161,7 @@ class ExtractDoc:
             self.text = text
             return [0,"Read text ok"]
          else:
-            return [-1,"Failed to convert txt with tool antiword"]
+            return [-1,"Failed to convert to txt with tool antiword"]
       except IOError:
          return [1,"Cann't read file : "+self.filename]
       except:

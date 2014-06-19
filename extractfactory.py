@@ -30,7 +30,7 @@ class ExtractFactory:
                gfs.store_2_db(info_list[0],info_list[1],info_list[2],self.filename,pdf.text)
 
           elif return_list[0]==-1:
-            cprint('WARNING',return_list[1]+',make sure the pdf file is not produced by scanned images.')
+            cprint('WARNING',return_list[1]+',make sure the pdf file is not produced by scanned images and no space/special characters in file name as well.')
           else :
             cprint('FAIL',return_list[1])
 
@@ -48,7 +48,7 @@ class ExtractFactory:
                gfs.store_2_db(info_list[0],info_list[1],info_list[2],self.filename,docx.text)
 
           elif return_list[0]==-1:
-           cprint('WARNING',return_list[1]+',make sure the file is not empty.')
+           cprint('WARNING',return_list[1]+',make sure the file is not empty and no space/special characters in file name as well.')
           else :
             cprint('FAIL',return_list[1])
 
@@ -66,7 +66,7 @@ class ExtractFactory:
                 gfs.store_2_db(info_list[0],info_list[1],info_list[2],self.filename,txt.text)
 
            elif return_list[0]==-1:
-             cprint('WARNING',return_list[1]+',make sure the file is not empty.')
+             cprint('WARNING',return_list[1]+',make sure the file is not empty and no space/special characters in file name as well.')
            else :
              cprint('FAIL',return_list[1])
 
@@ -83,7 +83,7 @@ class ExtractFactory:
               if info_list[0] and info_list[1] and info_list[2]:
                  gfs.store_2_db(info_list[0],info_list[1],info_list[2],self.filename,doc.text)
            elif return_list[0]==-1:
-                cprint('WARNING',return_list[1]+',make sure the file is not empty.')
+                cprint('WARNING',return_list[1]+',make sure the file is not empty and no space/special characters in file name as well.')
            else :
                 cprint('FAIL',return_list[1])
         else :

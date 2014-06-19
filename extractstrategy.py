@@ -2,7 +2,8 @@
 #created at : 2014.06.18
 #functionality : using several approaches to extract name,email,phone number from text.
 
-
+from timeout import timeout 
+from bcolors import cprint
 import re
 
 class NameStrategy:
@@ -17,12 +18,18 @@ class EmailStrategy:
 
       def __init__(self,text):
           self.text = text
-
+      
+      @timeout(120)
       def extract_email_by_re(self):
-         emailgrp = re.search("(\w+-*[.|\w]*)*@(\w+[.])*\w+",self.text)
          email = ''
-         if emailgrp:
-            email = emailgrp.group()
+         try:
+           emailgrp = re.search("(\w+-*[.|\w]*)*@(\w+[.])*\w+",self.text)
+           if emailgrp:
+              email = emailgrp.group()
+         except Exception,e:
+           cprint("FAIL","Seaching email timeout,maybe there is no email info in this resume,please check it by yourself.")
+         #if emailgrp:
+            #email = emailgrp.group()
             #check1: the first letter would be digit
             #email_test_1 = emailgrp.group()
             #email_test_2 = ''
@@ -53,7 +60,7 @@ class PhoneStrategy:
           self.text = text
 
       def extract_phone_by_re(self):
-          phonegrp = re.search("(?<!\\d)(?:(?:1[3458]\\d{9})|(?:861[358]\\d{9}))(?!\\d)",self.text)
+          phonegrp = re.search("([\(\+])?([0-9]{1,3}([\s])?)?([\+|\(|\-|\)|\s])?([0-9]{2,4})([\-|\)|\s]([\s])?)?([0-9]{2,4})+([\-|\s])?([0-9]{4,8})?([\-|\s])?([0-9]{3,8})",self.text)
           phone = ''
           if phonegrp:
                phone = phonegrp.group()
@@ -73,7 +80,7 @@ class PhoneStrategy:
                       str_num_cnt = str_num_cnt + 1
                       if self.text[j].isdigit():
                          phone_num_cnt = phone_num_cnt +1
-                      elif self.text[j].isspace():
+                      elif self.text[j].isspace() or self.text[j] == '-':
                          pass
                       else :
                           phone_num_cnt = 0
@@ -88,9 +95,8 @@ class PhoneStrategy:
           phone1 = ''
           if phone :
              for i in range(0,len(phone)):
-               if not phone[i].isspace() :
+               if not phone[i].isspace() and not phone[i] == '-' :
                   phone1 = phone1 + phone[i]
-          
           #Verify
           phone2 = ''
           if re.match("(?<!\\d)(?:(?:1[3458]\\d{9})|(?:861[358]\\d{9}))(?!\\d)",phone1):
@@ -99,8 +105,9 @@ class PhoneStrategy:
           return phone2
 
       def extract_international_phone(self):
-          phonegrp = re.search("1?\s*\W?\s*([2-9][0-8][0-9])\s*\W?\s*([2-9][0-9]{2})\s*\W?\s*([0-9]{4})(\se?x?t?(\d*))?",self.text)
+          phonegrp = re.search("1?\s*\W?\s*([2-9][0-8][0-9])\s*\W?\s*([2-9][0-9]{2})\s*\W?\s*([0-9]{4,8})(\se?x?t?(\d*))?",self.text)
           phone = ''
+          phone1 = ''
           if phonegrp:
                phone = phonegrp.group()
 
@@ -110,12 +117,17 @@ class PhoneStrategy:
       def extract_phone_interface(self):
           phone = self.extract_phone_by_re()
           #failed to extract phone with regular expression
-          if not phone:
-            phone = self.extract_phone_by_read11()
-          if not phone:
-            phone = self.extract_international_phone()
+          #if not phone:
+          #  phone = self.extract_phone_by_read11()
+          #if not phone:
+          #  phone = self.extract_international_phone()
+          phone1 = ''
+          if phone :
+             for i in range(0,len(phone)):
+               if not phone[i].isspace() :
+                  phone1 = phone1 + phone[i]
            
-          return phone
+          return phone1
 
 
 

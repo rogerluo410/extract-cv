@@ -7,7 +7,7 @@ import datetime
 import time
 import StringIO
 import threading, time
-
+from bcolors import cprint
 
 
 class GFS:
@@ -37,11 +37,11 @@ class GFS:
  
 
     def __init__(self):
-        print "__init__"
+        cprint("HEADER","__init__")
         GFS._connect()
-        print "server info " + " * " * 40
-        print GFS.conn.server_info
-        print "server info " + " * " * 40
+        cprint("HEADER","server info " + " * " * 40)
+        cprint("HEADER",str(GFS.conn.server_info) )
+        cprint("HEADER","server info " + " * " * 40)
 
 
     @staticmethod
@@ -75,16 +75,16 @@ class GFS:
 
 
     def store_2_db(self,name,email,phone,filepath,filetext):
-       print '**************************************'
-       print name
-       print email
-       print phone
-       print filepath
-       print '**************************************'
+       cprint("HEADER",'**************************************')
+       cprint("OK",name)
+       cprint("OK",email)
+       cprint("OK",phone)
+       cprint("OK",filepath)
+       cprint("HEADER",'**************************************')
        #store file
-       print os.path.getsize( filepath ) 
+       cprint("OK","File size : "+str(os.path.getsize( filepath )) + " bytes" )
        fileID = GFS.fs.put( open( filepath, 'rb')  )
-       print fileID
+       cprint("OK","File ID MD5 : "+str(fileID) )
 ### 
 #       out = fs.get(fileID)
 #       output = open(name+email+'.doc', 'wb')
@@ -97,9 +97,9 @@ class GFS:
        posts = GFS.db.cvtext
        strlist = filepath.split('.')
        filename=name+'_'+email+'_'+phone+'.'+strlist.pop()
-       print filename
+       cprint("OK","Create new file name : "+filename)
        post = {"name": name,"email": email,"phone": phone,"filename":filename,"filetext": filetext,"fileid":fileID}
-       print posts.insert(post)
+       cprint("OK","Record MD5 : "+str(posts.insert(post)) )
 
 
     def search_cv(keywords , *args):
