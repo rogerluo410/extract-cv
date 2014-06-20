@@ -33,7 +33,7 @@ class EmailStrategy:
       def __init__(self,text):
           self.text = text
       
-      @timeout(120)
+      @timeout(100)
       def extract_email_by_re(self):
          email = ''
          try:
