@@ -11,8 +11,22 @@ class NameStrategy:
      def __init__(self,text):
          self.text = text
 
-     def extract_name(self):
-         print "pending..."
+     def extract_name_by_re(self):
+         name = ''
+         namegrp = re.search('(name|Name|NAME)+([\:|\s|\,]{1,})+([A-Z]{1}[A-Za-z]+\s{1})([A-Z]{1}[A-Za-z]+)?',self.text)
+         if namegrp:
+            name_temp = re.search('([A-Z]{1}[A-Za-z]+\s{1})([A-Z]{1}[A-Za-z]+)',namegrp.group())
+            if name_temp:
+              name = name_temp.group()
+         return name
+
+     def extract_name_by_first_str(self):
+         print "pending"
+
+     def extract_name_interface(self):
+        name = self.extract_name_by_re()
+        return name
+
 
 class EmailStrategy:
 
@@ -60,7 +74,7 @@ class PhoneStrategy:
           self.text = text
 
       def extract_phone_by_re(self):
-          phonegrp = re.search("([\(\+])?([0-9]{1,3}([\s])?)?([\+|\(|\-|\)|\s])?([0-9]{2,4})([\-|\)|\s]([\s])?)?([0-9]{2,4})+([\-|\s])?([0-9]{4,8})?([\-|\s])?([0-9]{3,8})",self.text)
+          phonegrp = re.search("([\(\+])?([0-9]{1,3}([\s])?)?([\+|\(|\-|\)|\s])?([0-9]{2,4})([\-|\)|\s]([\s])?)?([0-9]{2,4})+([\-|\s])?([0-9]{4,8})+([\-|\s])?([0-9]{3,8})?",self.text)
           phone = ''
           if phonegrp:
                phone = phonegrp.group()
