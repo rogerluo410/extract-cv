@@ -112,5 +112,11 @@ class ExtractFactory:
                cprint("FAIL", "Extract email failed")
 
           #extract name
-
+          ns = NameStrategy(text)
+          name_tmp = ns.extract_name_interface()
+          if name_tmp:
+              cprint("OK","Name:"+name_tmp)
+              name = name_tmp
+          else:
+               cprint("FAIL", "Extract name failed") 
           return [name,email,phonenum]
