@@ -21,10 +21,18 @@ class NameStrategy:
          return name
 
      def extract_name_by_first_str(self):
-         print "pending"
+         name = ''
+         name1 = self.text
+         for line in name1.splitlines():
+             if line:
+                name = line
+                break
+         return name.strip()  
 
      def extract_name_interface(self):
         name = self.extract_name_by_re()
+        if not name:
+           name = self.extract_name_by_first_str()
         return name
 
 
@@ -82,50 +90,50 @@ class PhoneStrategy:
           return phone
 
       #directly read 11 numbers as a Chinese phone number
-      def extract_phone_by_read11(self):
-          phone_num_cnt = 0  #count phone number
-          str_num_cnt = 0 #count string number
-          phone = ''
-          for i in range(0,len(self.text)):
-             if self.text[i].isdigit() and self.text[i] == '1' :
-                 phone_num_cnt = phone_num_cnt + 1
-                 str_num_cnt = str_num_cnt + 1
-                 for j in range(i+1,len(self.text)):
-                      str_num_cnt = str_num_cnt + 1
-                      if self.text[j].isdigit():
-                         phone_num_cnt = phone_num_cnt +1
-                      elif self.text[j].isspace() or self.text[j] == '-':
-                         pass
-                      else :
-                          phone_num_cnt = 0
-                          str_num_cnt = 0
-                          break
+      #def extract_phone_by_read11(self):
+      #    phone_num_cnt = 0  #count phone number
+      #    str_num_cnt = 0 #count string number
+      #    phone = ''
+      #    for i in range(0,len(self.text)):
+      #       if self.text[i].isdigit() and self.text[i] == '1' :
+      #           phone_num_cnt = phone_num_cnt + 1
+      #           str_num_cnt = str_num_cnt + 1
+      #           for j in range(i+1,len(self.text)):
+      #                str_num_cnt = str_num_cnt + 1
+      #                if self.text[j].isdigit():
+      #                   phone_num_cnt = phone_num_cnt +1
+      #                elif self.text[j].isspace() or self.text[j] == '-':
+      #                   pass
+      #                else :
+      #                    phone_num_cnt = 0
+      #                    str_num_cnt = 0
+      #                    break
                       
-                      if phone_num_cnt == 11:
-                         phone = self.text[i:i+str_num_cnt]
-                         break
-             if phone_num_cnt == 11:
-                break
-          phone1 = ''
-          if phone :
-             for i in range(0,len(phone)):
-               if not phone[i].isspace() and not phone[i] == '-' :
-                  phone1 = phone1 + phone[i]
+      #                if phone_num_cnt == 11:
+      #                   phone = self.text[i:i+str_num_cnt]
+      #                   break
+      #       if phone_num_cnt == 11:
+      #          break
+      #    phone1 = ''
+      #    if phone :
+      #       for i in range(0,len(phone)):
+      #         if not phone[i].isspace() and not phone[i] == '-' :
+      #            phone1 = phone1 + phone[i]
           #Verify
-          phone2 = ''
-          if re.match("(?<!\\d)(?:(?:1[3458]\\d{9})|(?:861[358]\\d{9}))(?!\\d)",phone1):
-              phone2 = phone1
+      #   phone2 = ''
+      #   if re.match("(?<!\\d)(?:(?:1[3458]\\d{9})|(?:861[358]\\d{9}))(?!\\d)",phone1):
+      #        phone2 = phone1
 
-          return phone2
+      #   return phone2
 
-      def extract_international_phone(self):
-          phonegrp = re.search("1?\s*\W?\s*([2-9][0-8][0-9])\s*\W?\s*([2-9][0-9]{2})\s*\W?\s*([0-9]{4,8})(\se?x?t?(\d*))?",self.text)
-          phone = ''
-          phone1 = ''
-          if phonegrp:
-               phone = phonegrp.group()
-
-          return phone 
+      #def extract_international_phone(self):
+      #    phonegrp = re.search("1?\s*\W?\s*([2-9][0-8][0-9])\s*\W?\s*([2-9][0-9]{2})\s*\W?\s*([0-9]{4,8})(\se?x?t?(\d*))?",self.text)
+      #    phone = ''
+      #    phone1 = ''
+      #    if phonegrp:
+      #         phone = phonegrp.group()
+ 
+      #    return phone 
           
            
       def extract_phone_interface(self):
