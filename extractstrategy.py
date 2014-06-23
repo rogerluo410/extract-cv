@@ -42,8 +42,11 @@ class NameStrategy:
            #escape some special character in name.
            if  name[i] == '\n':
                  break
+           if name[i] == '|' and i != 0:
+                 break
+ 
            if not re.match('\W',name[i]):
-              name_out = name_out + name[i]
+             name_out = name_out + name[i]
 
         return name_out
 
