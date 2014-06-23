@@ -13,27 +13,39 @@ class NameStrategy:
 
      def extract_name_by_re(self):
          name = ''
-         namegrp = re.search('(name|Name|NAME)+([\:|\s|\,]{1,})+([A-Z]{1}[A-Za-z]+\s{1})([A-Z]{1}[A-Za-z]+)?',self.text)
+         namegrp = re.search('(name|Name|NAME)+([\:|\s|\,|\W]{1,})+([A-Z]{1}[A-Za-z]+\s{1})([A-Z]{1}[A-Za-z]+)?',self.text)
          if namegrp:
             name_temp = re.search('([A-Z]{1}[A-Za-z]+\s{1})([A-Z]{1}[A-Za-z]+)',namegrp.group())
             if name_temp:
               name = name_temp.group()
          return name
 
-     def extract_name_by_first_str(self):
+     def extract_name_by_first_line(self):
          name = ''
          name1 = self.text
          for line in name1.splitlines():
              if line:
                 name = line
-                break
+                #In some cases,the first line is not name,but some titles such as 'Resume' ,'resume' and so on. 
+                result = re.search('(Resume|resume)',name)
+                if not result:
+                  break
          return name.strip()  
 
      def extract_name_interface(self):
         name = self.extract_name_by_re()
+        name_out = ''
+        #if no name in resume, in most of situations,the first line is candidate's name. 
         if not name:
-           name = self.extract_name_by_first_str()
-        return name
+           name = self.extract_name_by_first_line()
+        for i in range(0,len(name)):
+           #escape some special character in name.
+           if  name[i] == '\n':
+                 break
+           if not re.match('\W',name[i]):
+              name_out = name_out + name[i]
+
+        return name_out
 
 
 class EmailStrategy:
